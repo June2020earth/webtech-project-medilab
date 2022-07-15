@@ -10,7 +10,6 @@ class user
 function register(event)
 {
     event.preventDefault();
-    console.log("Hello");
     var email=document.getElementById('email').value;
     var password=document.getElementById('password').value;
     var users=new user(email,password);
@@ -31,7 +30,7 @@ function sendRequestXHR(datas)
     }
     xhr.send(JSON.stringify(datas));
     var headers = xhr.getAllResponseHeaders().toLowerCase();
-alert(headers);
+    alert();
 }
 function sendRequest(datas)
 {

@@ -10,11 +10,25 @@ use Kreait\Firebase\ServiceAccount;
 
 require __DIR__ . '/../../vendor/autoload.php';
 require_once('../model/user.php');
+require_once('../model/service.php');
+require_once('../model/why.php');
+error_reporting(E_ALL ^ E_DEPRECATED);
 $app = new \Slim\App;
 
 $registerRoutes=require __DIR__ . '/registration.php';
 $registerRoutes($app);
 $app->run();
+
+
+
+
+
+
+
+
+
+
+
 
 // $app->get('/', function (Request $request, Response $response, $args) {
 //     // $serviceAccount=ServiceAccount::fromValue(__DIR__.'/../key.json');

@@ -16,7 +16,7 @@ return function(App $app)
         function (Request $request, Response $response, $args) {
             $data = $request->getBody();
             $serviceAccount = ServiceAccount::fromValue(__DIR__ . '/../key.json');
-            $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://fir-testing-6d2f3-default-rtdb.firebaseio.com/')->createDatabase();
+            $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://webtech-ddcf8-default-rtdb.asia-southeast1.firebasedatabase.app/')->createDatabase();
             $dataInJson = json_decode($data);
             $e = json_decode(($dataInJson));
             $userr = new userModel($e->email, $e->password);
@@ -45,7 +45,7 @@ return function(App $app)
         function (Request $request, Response $response, $args) {
             $data = $request->getBody();
             $serviceAccount = ServiceAccount::fromValue(__DIR__ . '/../key.json');
-            $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://fir-testing-6d2f3-default-rtdb.firebaseio.com/')->createDatabase();
+            $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://webtech-ddcf8-default-rtdb.asia-southeast1.firebasedatabase.app/')->createDatabase();
             $dataInJson = json_decode($data);
             $e = json_decode(($dataInJson));
             $userr = new userModel($e->email, $e->password);
@@ -69,6 +69,125 @@ return function(App $app)
             return $response;
         }
     );
+    //Register user
+    $app->post(
+        "/service",
+        function (Request $request, Response $response, $args) {
+            $data = $request->getBody();
+            $serviceAccount = ServiceAccount::fromValue(__DIR__ . '/../key.json');
+            $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://webtech-ddcf8-default-rtdb.asia-southeast1.firebasedatabase.app/')->createDatabase();
+            $dataInJson = json_decode($data);
+            $e = json_decode(($dataInJson));
+            $service = new serviceModel($e->name, $e->description, $e->icon);
 
+            $dbRef = $Firebase->getReference("service/$service->name");
+            if ($dbRef->getSnapshot()->exists()) {
+                $dbRef->set($service);
+                $response->getBody()->write("service has been used");
+            } else {
+                $dbRef->set($service);
+                if ($dbRef->getSnapshot()->exists()) {
+                    $response->getBody()->write("Registration Success");
+                } else {
+                    $response->getBody()->write(
+                        [
+                            "status" => 1
+                        ]
+                    );
+                }
+            }
+            return $response;
+        }
+    );
+        //Register user
+        $app->post(
+            "/serviceUpdate",
+            function (Request $request, Response $response, $args) {
+                $data = $request->getBody();
+                $serviceAccount = ServiceAccount::fromValue(__DIR__ . '/../key.json');
+                $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://webtech-ddcf8-default-rtdb.asia-southeast1.firebasedatabase.app/')->createDatabase();
+                $dataInJson = json_decode($data);
+                $e = json_decode(($dataInJson));
+                $service = new serviceModel($e->name, $e->description, $e->icon);
+    
+                $dbRef = $Firebase->getReference("service/$e->key");
+                if ($dbRef->getSnapshot()->exists()) {
+                    $dbRef->set($service);
+                    $response->getBody()->write("service has been used");
+                } else {
+                    $dbRef->set($service);
+                    if ($dbRef->getSnapshot()->exists()) {
+                        $response->getBody()->write("Registration Success");
+                    } else {
+                        $response->getBody()->write(
+                            [
+                                "status" => 1
+                            ]
+                        );
+                    }
+                }
+                return $response;
+            }
+        );
+            //why
+    $app->post(
+        "/whyMedilab",
+        function (Request $request, Response $response, $args) {
+            $data = $request->getBody();
+            $serviceAccount = ServiceAccount::fromValue(__DIR__ . '/../key.json');
+            $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://webtech-ddcf8-default-rtdb.asia-southeast1.firebasedatabase.app/')->createDatabase();
+            $dataInJson = json_decode($data);
+            $e = json_decode(($dataInJson));
+            $why = new whyModel($e->order,$e->header, $e->description, $e->icon);
+
+            $dbRef = $Firebase->getReference("whyMedilab/$why->header");
+            if ($dbRef->getSnapshot()->exists()) {
+                $dbRef->set($why);
+                $response->getBody()->write("service has been used");
+            } else {
+                $dbRef->set($why);
+                if ($dbRef->getSnapshot()->exists()) {
+                    $response->getBody()->write("Registration Success");
+                } else {
+                    $response->getBody()->write(
+                        [
+                            "status" => 1
+                        ]
+                    );
+                }
+            }
+            return $response;
+        }
+    );
+        //Register user
+        $app->post(
+            "/whyMedilabUpdate",
+            function (Request $request, Response $response, $args) {
+                $data = $request->getBody();
+                $serviceAccount = ServiceAccount::fromValue(__DIR__ . '/../key.json');
+                $Firebase = (new Factory)->withServiceAccount($serviceAccount)->withDatabaseUri('https://webtech-ddcf8-default-rtdb.asia-southeast1.firebasedatabase.app/')->createDatabase();
+                $dataInJson = json_decode($data);
+                $e = json_decode(($dataInJson));
+                $why = new whyModel($e->order,$e->header, $e->description, $e->icon);
+    
+                $dbRef = $Firebase->getReference("whyMedilab/$e->key");
+                if ($dbRef->getSnapshot()->exists()) {
+                    $dbRef->set($why);
+                    $response->getBody()->write("service has been used");
+                } else {
+                    $dbRef->set($why);
+                    if ($dbRef->getSnapshot()->exists()) {
+                        $response->getBody()->write("Registration Success");
+                    } else {
+                        $response->getBody()->write(
+                            [
+                                "status" => 1
+                            ]
+                        );
+                    }
+                }
+                return $response;
+            }
+        );
 };
 ?>
